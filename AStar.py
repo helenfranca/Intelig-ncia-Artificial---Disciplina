@@ -127,6 +127,3 @@ caminho = caminho(atual, inicio)
 
 print(caminho)
 print("\n--- %s segundos ---" % (time.time() - tempo_inicial))
-
-
-
