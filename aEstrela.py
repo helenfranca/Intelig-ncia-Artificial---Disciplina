@@ -1,7 +1,7 @@
 import time
+import sys
 
 class Node():
-    """A node class for A* caminhofinding"""
 
     def __init__(self, pai=None, posicao=None):
         self.pai = pai
@@ -17,7 +17,6 @@ class Node():
 
 def aestrela(mapa, start, end):
     """Retorna a lista de tuplas com o caminho, do início ao fim"""
-
 
     # Cria o nó de início e o nó de fim
     no_inicio = Node(None, start)
@@ -98,23 +97,9 @@ def aestrela(mapa, start, end):
 
 def main():
 
-    mapa2 = [[0, 0, 1, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0, 0],
-            [1, 0, 0, 1]]
-
-    mapa0 = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-
-    manipulador = open('mapa.txt','r')
+    """ Testar os mapas"""
+    
+    manipulador = open(sys.argv[1]+'.txt','r')
     mapa = []
     for linha in manipulador:
         b = []
@@ -123,14 +108,15 @@ def main():
                 b.append(int(elem))
         mapa.append(b)
     manipulador.close()
-    print(mapa)
-
-    """ Falta mudar as variaveis de objetivo, inicio e testar os mapas. Inserir elementos por linha de comando"""
-
-    inicio = (0, 0)
-    fim = (2,3)
+    
+    ini = sys.argv[2].split(',')
+    fin = sys.argv[3].split(',')
+    
+    inicio = (int(ini[0]),int(ini[1]))
+    fim = (int(fin[0]),int(fin[1]))
     tempo_inicial = time.time()
     caminho = aestrela(mapa, inicio, fim)
+
 
     print(caminho)
     print("\n--- %s segundos ---" % (time.time() - tempo_inicial))
