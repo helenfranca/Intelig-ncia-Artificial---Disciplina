@@ -1,8 +1,8 @@
 ## Atividade desenvolvida para a disciplina de Inteligência Artificial
 
-## Membros
+### Membros
 [Helen França](https://github.com/helenfranca)
-[Júlia Miranda](https://github.com/juliamrc)
+<br>[Júlia Miranda](https://github.com/juliamrc)
 
 ### O Algoritmo A\*
 
@@ -260,15 +260,15 @@ printaMatriz(desenhaCaminho(matriz,caminho))
 - Faça um clone do projeto em sua IDE de preferência ou o download dos arquivos
 - Por meio da linha de comando navegue até o diretório onde se encontram os arquivos-fonte
 
-###### As entradas são informadas via linha de comando da seguinte maneira:
+##### As entradas são informadas via linha de comando da seguinte maneira:
 
 - python "nomedoprograma".py "nomedoarquivodomapa.txt" "partida" "chegada"
 
-###### Exemplo:
+##### Exemplo:
 
 - python aStar.py mapa.txt 0,0 8,9
 
-###### Antes de informar um novo mapa
+##### Antes de informar um novo mapa
 
 - Certifique-se de que o arquivo do mapa que irá utilizar está na mesma pasta do arquivo que contém o algoritmo.
 
