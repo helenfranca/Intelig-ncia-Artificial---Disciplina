@@ -104,18 +104,20 @@ tamCMatriz = len(matriz[0])
 inicio = Node(None, atualPos)
 fim = Node(None, fimPos)
     
+if (fimPos[0] <0 or fimPos[1]<0 or atualPos[0]<0 or atualPos[1] < 0):
+    print("ERRO! Posição deve conter valores maiores que zero.")
+    sys.exit(0)   
+elif (matriz[fimPos[0]][fimPos[1]] == 1):
+    print("ERRO! Posição final é um obstáculo.")
+    sys.exit(0)
 
-if (matriz[atualPos[0]][atualPos[1]] == 1):
-	print("ERRO! Posição inicial é um obstáculo.") 
-	sys.exit(0)
-	
-if (matriz[fimPos[0]][fimPos[1]] == 1):
-	print("ERRO! Posição final é um obstáculo.")
-	sys.exit(0)
+elif (fimPos == atualPos):
+    print("Posição destino == Posição fim")
+    sys.exit(0)
+elif (matriz[atualPos[0]][atualPos[1]] == 1):
+    print("ERRO! Posição inicial é um obstáculo.") 
+    sys.exit(0)
 
-if (fimPos == atualPos):
-	print("Posição destino == Posição fim")
-	sys.exit(0)
 
 
 lstAberta.append(inicio)
@@ -158,6 +160,7 @@ while(len(lstAberta) > 0):
             vizinho.h = calcH(vizinho.posicao,fimPos)
             vizinho.f = vizinho.g + vizinho.h
             vizinho.pai = atual
+
 
 caminho = caminho(atual, inicio)
 
