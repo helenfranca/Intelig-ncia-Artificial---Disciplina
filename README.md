@@ -51,12 +51,10 @@ Legenda:
 
 ### Detalhamento das funções
 
-#### Monta o mapa conforme no arquivo informado
+#### Monta o mapa conforme matriz do arquivo informado
 
 ```python
 def leMatriz(matriz_arq):
-    matriz = []
-
     with open(matriz_arq, 'r') as f:
         l = [[int(num) for num in line.split(' ') if num != '\n'] for line in f]
 
@@ -81,12 +79,25 @@ class Node():
 
 ```
 
-#### Heuristica baseada na função distância de Manhattan (calculo literal da distância do nó atual e o nó destino - desconsiderando os obstáculos)
+#### Heuristica baseada na distância de Manhattan (calculo literal da distância (vertical e horizontal) do nó atual até o nó destino - desconsiderando obstáculos)
 
 ```python
 def calcH(vizinhoPos,fimPos):
     return ((abs(vizinhoPos[0]-fimPos[0]))+(abs(vizinhoPos[1]-fimPos[1])))
 
+```
+
+#### Busca o nó, dentro da lstAberta, com o menor caminho (g+h) até o destino
+
+```python
+def buscaMenorF(lstAberta):
+    menorF = lstAberta[0]
+
+    for i in range(1, len(lstAberta)):
+        if (menorF.f > lstAberta[i].f):
+            menorF = lstAberta[i]
+
+    return menorF
 ```
 
 #### Define os vizinhos "possiveis" do nó atual (definido na função buscaMenorF)
@@ -104,20 +115,7 @@ def defVizinhos(matriz,atual,lstAberta,lstVizinhos,posPossiveis,tamLMatriz,tamCM
     return lstVizinhos
 ```
 
-#### Busca o menor caminho (g+h) até o destino
-
-```python
-def buscaMenorF(lstAberta):
-    menorF = lstAberta[0]
-
-    for i in range(1, len(lstAberta)):
-        if (menorF.f > lstAberta[i].f):
-            menorF = lstAberta[i]
-
-    return menorF
-```
-
-#### Faz o caminho baseado nos "pais" dos nós
+#### Faz o caminho baseado no pai de cada nó
 
 ```python
 def caminho(atual, inicio):
@@ -129,7 +127,7 @@ def caminho(atual, inicio):
     return caminho
 ```
 
-#### Desenha o caminho na matriz
+#### Desenha o caminho encontrado na matriz
 
 ```python
 def desenhaCaminho(matriz, caminho):
@@ -156,6 +154,7 @@ def printaMatriz(matriz):
 if (fimPos[0] <0 or fimPos[1]<0 or atualPos[0]<0 or atualPos[1] < 0):
     print("ERRO! Posição deve conter valores maiores que zero.")
     exit
+    
 elif (matriz[fimPos[0]][fimPos[1]] == 1):
     print("ERRO! Posição final é um obstáculo.")
     exit
@@ -163,6 +162,7 @@ elif (matriz[fimPos[0]][fimPos[1]] == 1):
 elif (fimPos == atualPos):
     print("Posição destino == Posição fim")
     exit
+    
 elif (matriz[atualPos[0]][atualPos[1]] == 1):
     print("ERRO! Posição inicial é um obstáculo.")
     exit
@@ -198,7 +198,7 @@ while(len(lstAberta) > 0):
         #Verificamos se está na lista fechada, se estiver, passa para o próximo vizinho
         if (vizinho in lstFechada): continue
 
-        #Se ele não estiver na lstAberta quer dizer que ainda não sabemos os valores do F, portanto calculamos e o
+        #Se ele não estiver na lstAberta indica que ainda não sabemos os valores do F, portanto calculamos e o
         #adicionamos na lstAberta
         if (vizinho not in lstAberta):
             vizinho.pai = atual
@@ -207,8 +207,8 @@ while(len(lstAberta) > 0):
             vizinho.f = vizinho.g + vizinho.h
             lstAberta.append(vizinho)
 
-        #Se o vizinho estiver na lstAberta e "passando pelo nó atual o valor de g do vizinho é menor do que o
-        #que ele tem agora?" então recalculamos os valores de g, h e f e mudamos o pai dele para o nó atual
+        #Se o vizinho estiver na lstAberta e passando pelo nó atual o valor de g do vizinho é menor do que o
+        #que ele tem agora então recalculamos os valores de g, h e f e mudamos o pai dele para o nó atual
         elif (vizinho in lstAberta and ((atual.g+1) < vizinho.g)):
             vizinho.g = atual.g+1
             vizinho.h = calcH(vizinho.posicao,fimPos)
