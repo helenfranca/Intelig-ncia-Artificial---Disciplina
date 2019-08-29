@@ -1,5 +1,9 @@
 ## Atividade desenvolvida para a disciplina de Inteligência Artificial
 
+## Membros
+[Helen França](https://github.com/helenfranca)
+[Júlia Miranda](https://github.com/juliamrc)
+
 ### O Algoritmo A\*
 
 Algoritmo A\* (Lê-se: A-estrela) é um algoritmo para Busca de Caminho. Ele busca o caminho em um grafo de um nó inicial até um nó final. É a combinação de aproximações heurísticas como do algoritmo Breadth First Search (Busca em Largura) e da formalidade do Algoritmo de Dijkstra. Foi descrito pela primeira vez em 1968 por Peter Hart, Nils Nilsson, e Bertram Raphael. Na publicação deles, foi chamado de algoritmo A.
