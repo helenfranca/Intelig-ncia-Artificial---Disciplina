@@ -7,30 +7,26 @@ class Particula:
         self.velocidade = velocidade
         self.fit = fit
         self.pBest = pBest
-    
+
+# Funções
 
 def fitness(posicao):
     return (- (posicao[1] + 47) * math.sin(math.sqrt(math.fabs((posicao[0] / 2) + (posicao[1] + 47))))) - (posicao[0] * math.sin(math.sqrt(math.fabs(posicao[0] - (posicao[1] + 47)))))
     
-# Revisar a lógica do GBest
+
 def gBest(enxame):
-    menor = []
-    gbest = [512,512]
-    pos = 0
+    menor = Particula([512,512],0,1,0)
+   
     for particula in enxame:
-        menor.append(particula.pBest.posicao)
-    
-    for posicao in menor:
-        if posicao[0] < gbest[0] and posicao[1] < gbest[1]:
-            gbest[0] = posicao[0]
-            gbest[1] = posicao[1]
-            pos = posicao
-    
-    return pos
+        if (particula.posicao[0] < menor.posicao[0]) and (particula.posicao[1] < menor.posicao[1]):
+            menor = particula
+
+    return menor
 
 
 def cria_particula(numero_particulas):
-    return enxame = [ Particula(0,1,2,3) for x in range(0, numero_particulas)]
+    enxame = [ Particula(0,1,2,3) for x in range(0, numero_particulas)]
+    return enxame
 
 
 def inicializa_posicao(enxame,numero_posicao_particula):
@@ -42,15 +38,15 @@ def inicializa_posicao(enxame,numero_posicao_particula):
 def inicializa_velocidade(enxame, numero_posicao_particula):
      for particula in enxame:
         
-        velocidade_particula = [1 for j in range(0,numero_posicao_particula)]
+        velocidade_particula = [random.uniform(-77,77) for j in range(0,numero_posicao_particula)]
         particula.velocidade = velocidade_particula
 
 
 def main():
 
     # Inicializando constantes
-    c1 = 1
-    c2 = 1
+    c1 = 1.0
+    c2 = 1.0
     w = 0.72
 
     global_best = []
@@ -83,11 +79,25 @@ def main():
         # Não houve outra pra que pudesse ser comparada
         particula.pBest = particula
 
+ 
     # Descobrindo o gBest
-    # print(global_best.append(gBest(enxame)))
-    print(particula(enxame[0].posicao))
+    global_best.append(gBest(enxame))
+    
+    # Calcula a velocidade
+    for particula in enxame:
+        
+        for i in range(0,len(particula.velocidade)):
 
+            veloz = (w * particula.velocidade[i] ) + (c1 * random.random() * (particula.pBest.posicao[i] - particula.posicao[i])) + (c2 * random.random() * (global_best[len(global_best)-1].posicao[i] - particula.posicao[i]))
 
+            if (veloz > 512) :
+                veloz =  512
+            if (veloz < -512):
+                veloz = 512
+
+            particula.velocidade[i] = veloz
+
+    print(enxame[0].posicao)
 
 
     # print(enxame[0].pBest.posicao, enxame[0].posicao )
