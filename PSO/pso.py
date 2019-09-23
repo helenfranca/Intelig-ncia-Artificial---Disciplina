@@ -1,6 +1,15 @@
 import random
 import math
 
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D 
+import numpy as np
+plt.rcParams.update({'figure.max_open_warning': 0})
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+
 
 class Particula:
     def __init__(self, posicao, velocidade, fit, pBest):
@@ -50,21 +59,24 @@ def imprime_enxame(enxame):
 
     for particula in enxame:
         print(particula.posicao, particula.fit)
+    print("\n")
 
 def menor(particula):
     return (particula[0])
 
 def main():
-
+    xs_array = []
+    ys_array = []
+    zs_array = []
     # Inicializando constantes
     c1 = 1
     c2 = 1
     w = 0.72
 
     # Tornar parametrizado
-    numero_particulas = 50
+    numero_particulas = 100
     numero_posicao_particula = 2
-    iteracoes = 20
+    iteracoes = 50
     vezes = 10
     loop = 0
 
@@ -126,8 +138,20 @@ def main():
                         particula.velocidade[i] = 0.0
                     else:
                         particula.posicao[i] = nova_posicao
+
             
-        textoX = ''
+
+            for gb in global_best:
+                xs = gb.posicao[0]
+                ys = gb.posicao[1]
+                zs = gb.fit
+                
+                xs_array.append(xs)
+                ys_array.append(ys)
+                zs_array.append(zs)
+        
+            
+        '''textoX = ''
         textoY = ''
         for gb in global_best:
             textoX =  textoX + str(gb.posicao[0]) + ', '
@@ -137,9 +161,26 @@ def main():
         arq = open('global_20_50.csv', 'a')
         # arq.write('\n')
         arq.write('\nX, ' + textoX + '\nY, ' + textoY) 
-        arq.close()
+        arq.close()'''
+
+        
+            
         loop = loop + 1
+        
+
+
+
+    ax.scatter(xs_array, ys_array, zs_array, zdir='z', s=20,
+                                   c=None, depthshade=True)
+
+    ax.set_xlabel('X Label ')
+    ax.set_ylabel('Y Label ')
+    ax.set_zlabel('Z Label ')
+    print(ordenado[0].fit)
+
+                    
+    plt.show()
+
     
-    # imprime_enxame(global_best)
 
 main()
