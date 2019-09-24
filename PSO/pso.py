@@ -1,10 +1,10 @@
 import random
 import math
+import csv
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D 
 import numpy as np
-plt.rcParams.update({'figure.max_open_warning': 0})
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
@@ -80,7 +80,15 @@ def main():
     vezes = 10
     loop = 0
 
+    #melhor gbest de cada execucao
+    global_geral = []
+
+    #todos gbest
+
+    global_todas_iteracoes = []
+
     while (loop < vezes):
+        
         global_best = []
 
         # Criando as particulas
@@ -139,16 +147,18 @@ def main():
                     else:
                         particula.posicao[i] = nova_posicao
 
+        global_todas_iteracoes.append(ordenado)
+
             
 
-            for gb in global_best:
+        '''for gb in global_best:
                 xs = gb.posicao[0]
                 ys = gb.posicao[1]
                 zs = gb.fit
                 
                 xs_array.append(xs)
                 ys_array.append(ys)
-                zs_array.append(zs)
+                zs_array.append(zs)'''
         
             
         '''textoX = ''
@@ -164,13 +174,14 @@ def main():
         arq.close()'''
 
         
-            
+        global_geral.append(ordenado[0])    
         loop = loop + 1
+        
         
 
 
 
-    ax.scatter(xs_array, ys_array, zs_array, zdir='z', s=20,
+    '''ax.scatter(xs_array, ys_array, zs_array, zdir='z', s=20,
                                    c=None, depthshade=True)
 
     ax.set_xlabel('X Label ')
@@ -179,8 +190,29 @@ def main():
     print(ordenado[0].fit)
 
                     
-    plt.show()
+    plt.show()'''
 
-    
+    c = open("teste.csv", "a")
+    c.write("Melhor" +", " +"Média Interações" + "\n")
+
+    aux = 0
+
+
+    for i in range(0, len(global_todas_iteracoes)):
+        #print(global_geral[i].fit)
+        
+
+        for j in range(0, len(global_todas_iteracoes[i])):
+
+            aux = aux + global_todas_iteracoes[i][j].fit
+
+        #print(aux/iteracoes)
+
+
+        linha = str(global_geral[i].fit) + " ," + str(aux/iteracoes) + "\n"
+        c.write(linha)
+
+    print(len(global_geral))
+
 
 main()
