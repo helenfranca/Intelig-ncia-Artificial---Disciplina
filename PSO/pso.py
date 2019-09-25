@@ -6,10 +6,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D 
 import numpy as np
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-
-
 
 class Particula:
     def __init__(self, posicao, velocidade, fit, pBest):
@@ -64,19 +60,38 @@ def imprime_enxame(enxame):
 def menor(particula):
     return (particula[0])
 
+def escreveArq(c, global_todas_iteracoes, global_geral, iteracoes):
+    
+    lst_media_gb = []
+    lst_gb = []
+    for i in range(0, len(global_todas_iteracoes)):
+        aux = 0
+        for j in range(0, len(global_todas_iteracoes[i])):
+            aux = aux + global_todas_iteracoes[i][j].fit
+
+        lst_media_gb.append(aux/iteracoes)
+
+        lst_gb.append(global_geral[i].fit)
+
+        linha = str(i+1)+" E"+ ","+ str(global_geral[i].fit) + " ," + str(aux/iteracoes) + "\n"
+        c.write(linha)
+
+    c.write("\n\n")
+        
+    return lst_media_gb, lst_gb
+
 def main():
-    xs_array = []
-    ys_array = []
-    zs_array = []
     # Inicializando constantes
-    c1 = 1
-    c2 = 1
+    c1 = 2.05
+    c2 = 2.05
     w = 0.72
 
     # Tornar parametrizado
-    numero_particulas = 100
+
+
+    numero_particulas = 50
     numero_posicao_particula = 2
-    iteracoes = 50
+    iteracoes = 20
     vezes = 10
     loop = 0
 
@@ -148,71 +163,44 @@ def main():
                         particula.posicao[i] = nova_posicao
 
         global_todas_iteracoes.append(ordenado)
-
-            
-
-        '''for gb in global_best:
-                xs = gb.posicao[0]
-                ys = gb.posicao[1]
-                zs = gb.fit
-                
-                xs_array.append(xs)
-                ys_array.append(ys)
-                zs_array.append(zs)'''
-        
-            
-        '''textoX = ''
-        textoY = ''
-        for gb in global_best:
-            textoX =  textoX + str(gb.posicao[0]) + ', '
-            textoY = textoY + str(gb.posicao[1]) + ', '
-
-        # print(textoX)
-        arq = open('global_20_50.csv', 'a')
-        # arq.write('\n')
-        arq.write('\nX, ' + textoX + '\nY, ' + textoY) 
-        arq.close()'''
-
-        
         global_geral.append(ordenado[0])    
         loop = loop + 1
         
-        
-
-
-
-    '''ax.scatter(xs_array, ys_array, zs_array, zdir='z', s=20,
-                                   c=None, depthshade=True)
-
-    ax.set_xlabel('X Label ')
-    ax.set_ylabel('Y Label ')
-    ax.set_zlabel('Z Label ')
-    print(ordenado[0].fit)
-
-                    
-    plt.show()'''
 
     c = open("teste.csv", "a")
-    c.write("Melhor" +", " +"Média Interações" + "\n")
+    
+    c.write(str(iteracoes)+" I - "+str(numero_particulas)+" P " + ", "+"Melhor" +", " +"Média Interações" + "\n")
 
-    aux = 0
+    lst_media_gb = []
+    lst_gb = []
 
+    lst_media_gb, lst_gb = escreveArq(c, global_todas_iteracoes, global_geral, iteracoes)
 
-    for i in range(0, len(global_todas_iteracoes)):
-        #print(global_geral[i].fit)
-        
+    c.close()
 
-        for j in range(0, len(global_todas_iteracoes[i])):
+    print("gb: ", lst_gb)
+    print()
+    print("media gb: ",lst_media_gb)
+    
 
-            aux = aux + global_todas_iteracoes[i][j].fit
+    #plotar grafico
+    x = [1,2,3,4,5,6,7,8,9,10] #execucoes
 
-        #print(aux/iteracoes)
+    plt.plot(x, lst_gb, 'go')
+    plt.plot(x, lst_gb, 'k:', color='orange', label='GBest')
+    
+    plt.plot(x, lst_media_gb, 'r^',)
+    plt.plot(x, lst_media_gb, 'k--', color='blue', label='Média Gbest')
 
+    plt.title(str(iteracoes)+" Interações - "+str(numero_particulas)+" Partículas")
 
-        linha = str(global_geral[i].fit) + " ," + str(aux/iteracoes) + "\n"
-        c.write(linha)
+    plt.grid(True)
+    plt.xlabel("Execuções")
+    plt.legend(loc=0)
+    plt.show()
 
-    print(len(global_geral))
+#global_best = melhores gb de cada execucao
+#lista_media_gb = media de todos os gb de uma execucao
 
 
 main()
