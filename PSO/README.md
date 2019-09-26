@@ -58,15 +58,17 @@ O objetivo é encontrar o mínimo global, descrito em:
 
 ```python
 def fitness(posicao):
-    return (- (posicao[1] + 47) * math.sin(math.sqrt(math.fabs((posicao[0] / 2) + (posicao[1] + 47))))) - (posicao[0] * math.sin(math.sqrt(math.fabs(posicao[0] - (posicao[1] + 47)))))
+    return (- (posicao[1] + 47) * math.sin(math.sqrt(math.fabs((posicao[0] / 2) + (posicao[1] + 47))))) - 
+           (posicao[0] * math.sin(math.sqrt(math.fabs(posicao[0] - (posicao[1] + 47)))))
 ```
 
 #### Atualiza velocidade da Partícula
 
 ```python
 def velocidade(w, particula, i, c1, c2, global_best):
-    veloz = (w * particula.velocidade[i]) + (c1 * random.uniform(0, 1) * (particula.pBest.posicao[i] - particula.posicao[i])) + (
-        c2 * random.uniform(0, 1) * (global_best[len(global_best)-1].posicao[i] - particula.posicao[i]))
+    veloz = (w * particula.velocidade[i]) + (c1 * random.uniform(0, 1) * (particula.pBest.posicao[i] - 
+            particula.posicao[i])) + (c2 * random.uniform(0, 1) * (global_best[len(global_best)-1].posicao[i] - 
+            particula.posicao[i]))
 
     if (veloz > 77):
         veloz = 77
