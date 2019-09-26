@@ -192,6 +192,8 @@ def pso():
 
 Podemos perceber que ao início da execução (para x partículas com y iterações) as partículas possuem comportamento desordenado e aleatório. A partir do conhecimento e influência do gBest em cada partícula em uma iteração, elas passam a ter comportamento parecido, o que mostra que o código é eficaz e pouco aleatório.
 
+Os gráficos abaixo são gerados por um editor de planilhas. Dado que após execução, o algoritmo escreve em arquivo CSV os gBests, o melhor e a média.
+
 ![Gráfico](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/PSO/img/20_50.png)
 
 ![Gráfico](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/PSO/img/20_100.png)
@@ -205,6 +207,32 @@ Podemos perceber que ao início da execução (para x partículas com y iteraç�
 ![Gráfico](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/PSO/img/100_100.png)
 
 ![Tabela](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/PSO/img/tabela20_50.PNG)
+
+
+
+
+### Rodando o algoritmo
+
+##### Importante
+
+É necessário ter Python3 instalado em sua máquina. Caso não tenha, [clique aqui](https://www.python.org/downloads/) e efetue os procedimentos.
+
+- Faça um clone do projeto em sua IDE de preferência ou o download dos arquivos
+- Por meio da linha de comando navegue até o diretório onde se encontram os arquivos-fonte
+
+##### Via linha de comando, escreva:
+
+- python pso.py
+
+
+##### Lembre-se:
+
+- Caso não possua os arquivos CSV na pasta em questão, o algoritmo irá criá-lo.
+
+---
+
+
+
 
 
 
