@@ -19,7 +19,6 @@ def pso():
             numero_posicao_particula = 2
             vezes = 10
             loop = 0
-            global_best_best = []
             while (loop < vezes):
 
                 global_best = []
@@ -61,7 +60,6 @@ def pso():
                             # Calcula a posicão
                             bib.calcula_posicao(particula, i)
 
-                global_best_best.append(global_best)
 
                 texto = bib.conteudo_arquivo(global_best)
 
