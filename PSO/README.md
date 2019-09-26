@@ -58,15 +58,17 @@ O objetivo é encontrar o mínimo global, descrito em:
 
 ```python
 def fitness(posicao):
-    return (- (posicao[1] + 47) * math.sin(math.sqrt(math.fabs((posicao[0] / 2) + (posicao[1] + 47))))) - (posicao[0] * math.sin(math.sqrt(math.fabs(posicao[0] - (posicao[1] + 47)))))
+    return (- (posicao[1] + 47) * math.sin(math.sqrt(math.fabs((posicao[0] / 2) + (posicao[1] + 47))))) - 
+           (posicao[0] * math.sin(math.sqrt(math.fabs(posicao[0] - (posicao[1] + 47)))))
 ```
 
 #### Atualiza velocidade da Partícula
 
 ```python
 def velocidade(w, particula, i, c1, c2, global_best):
-    veloz = (w * particula.velocidade[i]) + (c1 * random.uniform(0, 1) * (particula.pBest.posicao[i] - particula.posicao[i])) + (
-        c2 * random.uniform(0, 1) * (global_best[len(global_best)-1].posicao[i] - particula.posicao[i]))
+    veloz = (w * particula.velocidade[i]) + (c1 * random.uniform(0, 1) * (particula.pBest.posicao[i] - 
+            particula.posicao[i])) + (c2 * random.uniform(0, 1) * (global_best[len(global_best)-1].posicao[i] 
+            - particula.posicao[i]))
 
     if (veloz > 77):
         veloz = 77
@@ -147,7 +149,6 @@ def pso():
             numero_posicao_particula = 2
             vezes = 10
             loop = 0
-            global_best_best = []
             
             while (loop < vezes):
                 global_best = []
@@ -182,7 +183,6 @@ def pso():
                             # Calcula a posicão
                             bib.calcula_posicao(particula, i)
 
-                global_best_best.append(global_best)
                 texto = bib.conteudo_arquivo(global_best)
                 bib.escreve_arquivo(texto, iteracoes, numero_particulas)
                 loop = loop + 1
@@ -191,6 +191,8 @@ def pso():
 #### Resultados
 
 Podemos perceber que ao início da execução (para x partículas com y iterações) as partículas possuem comportamento desordenado e aleatório. A partir do conhecimento e influência do gBest em cada partícula em uma iteração, elas passam a ter comportamento parecido, o que mostra que o código é eficaz e pouco aleatório.
+
+Os gráficos abaixo são gerados por um editor de planilhas. Dado que após execução, o algoritmo escreve em arquivo CSV os gBests, o melhor e a média.
 
 ![Gráfico](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/PSO/img/20_50.png)
 
@@ -205,6 +207,32 @@ Podemos perceber que ao início da execução (para x partículas com y iteraç�
 ![Gráfico](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/PSO/img/100_100.png)
 
 ![Tabela](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/PSO/img/tabela20_50.PNG)
+
+
+
+
+### Rodando o algoritmo
+
+##### Importante
+
+É necessário ter Python3 instalado em sua máquina. Caso não tenha, [clique aqui](https://www.python.org/downloads/) e efetue os procedimentos.
+
+- Faça um clone do projeto em sua IDE de preferência ou o download dos arquivos
+- Por meio da linha de comando navegue até o diretório onde se encontram os arquivos-fonte
+
+##### Via linha de comando, escreva:
+
+- python pso.py
+
+
+##### Lembre-se:
+
+- Caso não possua os arquivos CSV na pasta em questão, o algoritmo irá criá-lo.
+
+---
+
+
+
 
 
 
