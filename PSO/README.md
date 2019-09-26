@@ -67,8 +67,8 @@ def fitness(posicao):
 ```python
 def velocidade(w, particula, i, c1, c2, global_best):
     veloz = (w * particula.velocidade[i]) + (c1 * random.uniform(0, 1) * (particula.pBest.posicao[i] - 
-            particula.posicao[i])) + (c2 * random.uniform(0, 1) * (global_best[len(global_best)-1].posicao[i] - 
-            particula.posicao[i]))
+            particula.posicao[i])) + (c2 * random.uniform(0, 1) * (global_best[len(global_best)-1].posicao[i] 
+            - particula.posicao[i]))
 
     if (veloz > 77):
         veloz = 77
