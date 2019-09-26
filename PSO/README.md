@@ -20,8 +20,7 @@ desempenho das partículas. A partir disso, verificaríamos quem seria o ‘líd
 víduo que tem a melhor rota dentre todos. Sabendo o líder, começamos a ‘cruzar’ (o termo em inglês correto é de ***crossover***) parte da 
 sua rota com a dos outros indivíduos. Fazendo assim, na teoria, com que todos melhorem sua rota através do líder (melhor indivíduo).
 
-Há também um segundo ‘crossover’ para cada indivíduo. Porém, nesse, nós misturamos a rota atual de cada indivíduo com a melhor rota já obti-
-da pelo mesmo, anteriormente (chamamos de **pbest**).
+Há também um segundo ‘crossover’ para cada indivíduo. Porém, nesse, nós misturamos a rota atual de cada indivíduo com a melhor rota já obtida pelo mesmo, anteriormente (chamamos de **pbest**).
 
 #### A cada iteração...
 1. Escolhemos o líder, dentre os indivíduos. (O que tem melhor resultado).
@@ -38,7 +37,13 @@ O objetivo é encontrar o mínimo global, descrito em:
 
 ![Mínimo Global](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/PSO/img/minimo_global.png)
 
-### Resolução
+### Implementação
+
+Divisão do código em três principais arquivos.
+
+- **pso.py**: arquivo principal, a main() do projeto.
+- **bib.py**: arquivo onde estão todas as funções utilizadas durante a execução.
+- **Particula.py**: arquivo específico para descrição da classe da partícula.
 
 #### Classe Partícula
 
