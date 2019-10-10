@@ -6,17 +6,21 @@
 
 #### O Algoritmo AG
 
-
+________________
 #### Problema proposto
+
 
 
 #### Implementação
 
 
+
 #### Resultados
+
 
 
 #### Rodando o algoritmo
 
 
+________________
 #### Referências
