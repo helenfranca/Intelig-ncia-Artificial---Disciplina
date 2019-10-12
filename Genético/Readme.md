@@ -4,7 +4,7 @@
 [Helen França](https://github.com/helenfranca)
 <br>[Júlia Miranda](https://github.com/juliamrc)
 
-#### O Algoritmo AG
+#### O Algoritmo Genético
 
 ________________
 #### Problema proposto
