@@ -1,5 +1,6 @@
 import random
 import math
+import numpy as np
 
 
 class Cromossomo:
@@ -7,7 +8,7 @@ class Cromossomo:
         self.corpo = corpo
         
         # Normaliza
-        dec = bin2Dec(formata(corpo))
+        dec = bin2Dec(formata(self.corpo))
         self.x = (-20) + (20 + 20) * (dec / (pow(2,10) - 1))
         
         # Calcula a aptidao baseado no numero normalizado
@@ -24,7 +25,7 @@ class Cromossomo:
     
     def atualiza(self):
         dec = bin2Dec(formata(self.corpo))
-        self.x = (-20) + (20 - (-20)) * (dec / pow(2,10) - 1)
+        self.x = (-20) + (20 + 20) * (dec / (pow(2,10) - 1))
         self.aptidao = math.cos(self.x) * self.x + 2
 
 
@@ -59,7 +60,6 @@ def selecao_torneio(populacao):
         pais.append(pai)
     
     return pais
-
 
 def crossover(pais):
     nova_geracao = []
@@ -111,10 +111,28 @@ def elitismo(nova_geracao, populacao):
     melhor_pai = sorted(populacao, key=Cromossomo.get_aptidao)[0]
     filhos_ordenados = sorted(nova_geracao, key=Cromossomo.get_aptidao)
     melhor_filho = filhos_ordenados[0]
+    print(melhor_pai.get_aptidao(), melhor_filho.get_aptidao())
+    indice = nova_geracao.index(melhor_filho)
     
     if melhor_pai.get_aptidao() < melhor_filho.get_aptidao():
-        nova_geracao[len(nova_geracao) - 1] = melhor_pai
+        nova_geracao[indice] = melhor_pai
 
+def escreve_arquivo(texto, geracao):
+    arquivo = open('geracao_'+str(geracao)+'.csv', 'a')
+    arquivo.write(texto + '\n')
+    arquivo.close()
+
+def conteudo_arquivo(melhores):
+
+    texto = '\t;Teste 1; Teste 2; Teste 3;Teste 4; Teste 5; Teste 6;Teste 7; Teste 8; Teste 9;Teste 10 \n Iteracao 1;'
+    j = 1
+    for cromossomo in melhores:
+        j = j + 1
+        for i in range(0, len(cromossomo)):
+            # print(cromossomo)
+            texto = texto + str(round(cromossomo[i], 5)).replace('.', ',') + ';'
+        texto = texto + '\n Iteracao ' + str(j) + ';'
+    return texto
 
 def bin2Dec(binary):
 
@@ -126,39 +144,50 @@ def bin2Dec(binary):
         i += 1
     return decimal
 
-
 def formata(corpo):
     b = ''
     for i in corpo:
         b = str(i) + '' + b
     return int(b)
 
+def imprimeEnxame(enxame):
+    for particula in enxame:
+        print('> ', particula)
 
 def main():
 
     numero_populacao = 10
     pais = []
     nova_geracao = []
+    
+    geracao = [10,20]
+    melhores_melhores = []
 
     # 1° Passo: Criar População c/ aptidão
     populacao = cria_populacao(numero_populacao)
 
     for _ in range(0,10):
-        # 2° Passo: Seleção por Torneio
-        pais = selecao_torneio(populacao)
-    
-        # 3° Passo: Crossover
-        nova_geracao = crossover(pais)
-
-        # 4° Passo: Mutação
-        mutacao(nova_geracao)
-
-        # 5° Passo: Elitismo
-        elitismo(nova_geracao, populacao)
-        populacao = nova_geracao
+        melhores = []
+        for _ in range(0,10):
+            # 2° Passo: Seleção por Torneio
+            pais = selecao_torneio(populacao)
         
-        print(sorted(nova_geracao, key=Cromossomo.get_aptidao)[0].get_aptidao())
-    
-    
+            # 3° Passo: Crossover
+            nova_geracao = crossover(pais)
+
+            # 4° Passo: Mutação
+            mutacao(nova_geracao)
+
+            # 5° Passo: Elitismo
+            elitismo(nova_geracao, populacao)
+            populacao = nova_geracao
+        
+            melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0].get_aptidao()
+            melhores.append(melhor_geracao)
+        melhores_melhores.append(melhores)
+        
+    transposta = np.transpose(melhores_melhores)
+    escreve_arquivo(conteudo_arquivo(transposta),1)
+ 
                         
 main()
