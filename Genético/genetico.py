@@ -2,8 +2,8 @@ import random
 import math
 import numpy as np
 
-import matplotlib
-import matplotlib.pyplot as plt
+#import matplotlib
+#import matplotlib.pyplot as plt
 
 
 class Cromossomo:
@@ -182,6 +182,24 @@ def imprimeEnxame(enxame):
         print('> ', particula)
 
 
+def defineMelhor(ultimaLinha):
+
+    menor = ultimaLinha[0]
+    j=0
+
+    for i in range(1, len(ultimaLinha)-1):
+
+        if menor > ultimaLinha[i]:
+            
+            menor = ultimaLinha[i]
+            
+            j=i       #guarda posicao do menor
+
+    return menor, j
+        
+
+
+
 
 def main():
 
@@ -234,12 +252,15 @@ def main():
     print() 
     ##dps tirar esse 10 e por geracao
     print(calcula_media(transposta, 10))
-    
-    
-    ##escreve_arquivo(conteudo_arquivo(transposta, calcula_media(melhores_melhores)),1)
 
-    '''fig, ax = plt.subplots()
-    ax.plot(melhores_aptidao_total_grafico, melhores_x_total_grafico)
+    print()
+
+    #mando ultima linha da matriz de resultado para definicao do menor
+    print(defineMelhor(transposta[-1]))
+    
+    
+    ##escreve_arquivo(conteudo_arquivo(transposta, calcula_media(melhores_melhores)),1fig, ax = plt.subplots()
+    '''ax.plot(melhores_aptidao_total_grafico, melhores_x_total_grafico)
 
     ax.set(xlabel='melhores_x_total', ylabel='melhores_aptidao_total',
            title='About as simple as it gets, folks')
