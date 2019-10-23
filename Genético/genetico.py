@@ -114,7 +114,6 @@ def elitismo(nova_geracao, populacao):
     melhor_pai = sorted(populacao, key=Cromossomo.get_aptidao)[0]
     filhos_ordenados = sorted(nova_geracao, key=Cromossomo.get_aptidao)
     melhor_filho = filhos_ordenados[0]
-    ##print(melhor_pai.get_aptidao(), melhor_filho.get_aptidao())
     indice = nova_geracao.index(melhor_filho)
     
     if melhor_pai.get_aptidao() < melhor_filho.get_aptidao():
