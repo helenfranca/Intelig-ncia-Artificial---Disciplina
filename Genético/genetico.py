@@ -145,7 +145,7 @@ def conteudo_arquivo(melhores, media_melhores):
         
     return texto
 
-def calcula_media(melhores):
+def calcula_media(melhores, geracao):
     media_melhores = []
 
     for linha in melhores:
@@ -155,7 +155,8 @@ def calcula_media(melhores):
         for item in linha:
             somatorio += item
 
-        media_melhores.append(somatorio/10)
+        media_melhores.append(somatorio/geracao)
+
 
     return media_melhores
     
@@ -212,59 +213,32 @@ def main():
 
             
             melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0]
-
-            ##guardando aptidao e x dos melhores
-            melhor_geracao_aptidao_x = (melhor_geracao.get_aptidao(), melhor_geracao.get_x())
             
-            melhores.append(melhor_geracao_aptidao_x)
+            melhor_geracao_aptidao = melhor_geracao.get_aptidao()
+            
+            melhores.append(melhor_geracao_aptidao)
             
             
             
         melhores_melhores.append(melhores)
         
         
+
+
     ##print(melhores_melhores)
-
-    ##pegando so a aptidao dos melhores
-    melhores_aptidao_total = []
-    melhores_aptidao_total_grafico = []
-    for linha in melhores_melhores:
-        
-        melhores_aptidao = []
-
-        for item in linha:
-            melhores_aptidao.append(item[0])
-            
-            ##melhores_aptidao_total_grafico.append(item[0]) ##possui todas as aptidao
-
-        melhores_aptidao_total_grafico.append(sorted(melhores_aptidao)[0]) ##para melhor aptidao de cada execucao
-        melhores_aptidao_total.append(melhores_aptidao)
-
     ##print()
+    ##print(melhores_x_total_grafico)
 
-    ##pegando so o x dos melhores
-    melhores_x_total = []
-    melhores_x_total_grafico = []
-    for linha in melhores_melhores:
-        
-        melhores_x = []
+    transposta = np.transpose(melhores_melhores)
+    print(transposta)
+    print() 
+    ##dps tirar esse 10 e por geracao
+    print(calcula_media(transposta, 10))
+    
+    
+    ##escreve_arquivo(conteudo_arquivo(transposta, calcula_media(melhores_melhores)),1)
 
-        for item in linha:
-            melhores_x.append(item[1])
-            
-            ##melhores_x_total_grafico.append(item[1]) ##esse possui todos os x
-
-        melhores_x_total_grafico.append(sorted(melhores_x)[0])   ##para melhor x de cada aptidao  
-        melhores_x_total.append(melhores_x)
-
-    print(melhores_aptidao_total_grafico)
-    print()
-    print(melhores_x_total_grafico)
-
-    transposta = np.transpose(melhores_aptidao_total)
-    escreve_arquivo(conteudo_arquivo(transposta, calcula_media(melhores_aptidao_total)),1)
-
-    fig, ax = plt.subplots()
+    '''fig, ax = plt.subplots()
     ax.plot(melhores_aptidao_total_grafico, melhores_x_total_grafico)
 
     ax.set(xlabel='melhores_x_total', ylabel='melhores_aptidao_total',
@@ -272,7 +246,7 @@ def main():
     ax.grid()
 
     ##fig.savefig("test.png")
-    plt.show()
+    plt.show()'''
  
                         
 main()
