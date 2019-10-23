@@ -2,6 +2,9 @@ import random
 import math
 import numpy as np
 
+import matplotlib
+import matplotlib.pyplot as plt
+
 
 class Cromossomo:
     def __init__(self, corpo):
@@ -111,7 +114,7 @@ def elitismo(nova_geracao, populacao):
     melhor_pai = sorted(populacao, key=Cromossomo.get_aptidao)[0]
     filhos_ordenados = sorted(nova_geracao, key=Cromossomo.get_aptidao)
     melhor_filho = filhos_ordenados[0]
-    print(melhor_pai.get_aptidao(), melhor_filho.get_aptidao())
+    ##print(melhor_pai.get_aptidao(), melhor_filho.get_aptidao())
     indice = nova_geracao.index(melhor_filho)
     
     if melhor_pai.get_aptidao() < melhor_filho.get_aptidao():
@@ -122,7 +125,7 @@ def escreve_arquivo(texto, geracao):
     arquivo.write(texto + '\n')
     arquivo.close()
 
-def conteudo_arquivo(melhores):
+def conteudo_arquivo(melhores, media_melhores):
 
     texto = '\t;Teste 1; Teste 2; Teste 3;Teste 4; Teste 5; Teste 6;Teste 7; Teste 8; Teste 9;Teste 10 \n Iteracao 1;'
     j = 1
@@ -131,8 +134,32 @@ def conteudo_arquivo(melhores):
         for i in range(0, len(cromossomo)):
             # print(cromossomo)
             texto = texto + str(round(cromossomo[i], 5)).replace('.', ',') + ';'
-        texto = texto + '\n Iteracao ' + str(j) + ';'
+        if(j!=11):
+            texto = texto + '\n Iteracao ' + str(j) + ';'
+
+    texto += '\n\n'
+
+    texto += 'Média: ;'
+    for item in media_melhores:
+        
+        texto += str(round(item, 5)).replace('.', ',') + ';'
+        
     return texto
+
+def calcula_media(melhores):
+    media_melhores = []
+
+    for linha in melhores:
+        
+        somatorio = 0
+        
+        for item in linha:
+            somatorio += item
+
+        media_melhores.append(somatorio/10)
+
+    return media_melhores
+    
 
 def bin2Dec(binary):
 
@@ -153,6 +180,8 @@ def formata(corpo):
 def imprimeEnxame(enxame):
     for particula in enxame:
         print('> ', particula)
+
+
 
 def main():
 
@@ -181,13 +210,70 @@ def main():
             # 5° Passo: Elitismo
             elitismo(nova_geracao, populacao)
             populacao = nova_geracao
-        
-            melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0].get_aptidao()
-            melhores.append(melhor_geracao)
+
+            
+            melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0]
+
+            ##guardando aptidao e x dos melhores
+            melhor_geracao_aptidao_x = (melhor_geracao.get_aptidao(), melhor_geracao.get_x())
+            
+            melhores.append(melhor_geracao_aptidao_x)
+            
+            
+            
         melhores_melhores.append(melhores)
         
-    transposta = np.transpose(melhores_melhores)
-    escreve_arquivo(conteudo_arquivo(transposta),1)
+        
+    ##print(melhores_melhores)
+
+    ##pegando so a aptidao dos melhores
+    melhores_aptidao_total = []
+    melhores_aptidao_total_grafico = []
+    for linha in melhores_melhores:
+        
+        melhores_aptidao = []
+
+        for item in linha:
+            melhores_aptidao.append(item[0])
+            
+            ##melhores_aptidao_total_grafico.append(item[0]) ##possui todas as aptidao
+
+        melhores_aptidao_total_grafico.append(sorted(melhores_aptidao)[0]) ##para melhor aptidao de cada execucao
+        melhores_aptidao_total.append(melhores_aptidao)
+
+    ##print()
+
+    ##pegando so o x dos melhores
+    melhores_x_total = []
+    melhores_x_total_grafico = []
+    for linha in melhores_melhores:
+        
+        melhores_x = []
+
+        for item in linha:
+            melhores_x.append(item[1])
+            
+            ##melhores_x_total_grafico.append(item[1]) ##esse possui todos os x
+
+        melhores_x_total_grafico.append(sorted(melhores_x)[0])   ##para melhor x de cada aptidao  
+        melhores_x_total.append(melhores_x)
+
+    print(melhores_aptidao_total_grafico)
+    print()
+    print(melhores_x_total_grafico)
+
+    transposta = np.transpose(melhores_aptidao_total)
+    escreve_arquivo(conteudo_arquivo(transposta, calcula_media(melhores_aptidao_total)),1)
+
+    fig, ax = plt.subplots()
+    ax.plot(melhores_aptidao_total_grafico, melhores_x_total_grafico)
+
+    ax.set(xlabel='melhores_x_total', ylabel='melhores_aptidao_total',
+           title='About as simple as it gets, folks')
+    ax.grid()
+
+    ##fig.savefig("test.png")
+    plt.show()
  
                         
 main()
