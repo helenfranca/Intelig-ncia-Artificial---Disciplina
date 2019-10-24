@@ -2,8 +2,8 @@ import random
 import math
 import numpy as np
 
-#import matplotlib
-#import matplotlib.pyplot as plt
+import matplotlib
+import matplotlib.pyplot as plt
 
 
 class Cromossomo:
@@ -149,15 +149,10 @@ def calcula_media(melhores, geracao):
     media_melhores = []
 
     for linha in melhores:
-        
         somatorio = 0
-        
         for item in linha:
             somatorio += item
-
         media_melhores.append(somatorio/geracao)
-
-
     return media_melhores
     
 
@@ -198,6 +193,14 @@ def defineMelhor(ultimaLinha):
     return menor, j
         
 
+def listaMelhorTeste(melhores, indice):
+    melhorTeste = []
+
+    for linha in melhores:
+
+        melhorTeste.append(linha[indice])
+
+    return melhorTeste
 
 
 
@@ -230,14 +233,10 @@ def main():
             populacao = nova_geracao
 
             
-            melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0]
-            
+            melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0] 
             melhor_geracao_aptidao = melhor_geracao.get_aptidao()
-            
             melhores.append(melhor_geracao_aptidao)
-            
-            
-            
+ 
         melhores_melhores.append(melhores)
         
         
@@ -251,23 +250,40 @@ def main():
     print(transposta)
     print() 
     ##dps tirar esse 10 e por geracao
-    print(calcula_media(transposta, 10))
+    media = calcula_media(transposta, 10)
 
     print()
 
     #mando ultima linha da matriz de resultado para definicao do menor
-    print(defineMelhor(transposta[-1]))
-    
-    
-    ##escreve_arquivo(conteudo_arquivo(transposta, calcula_media(melhores_melhores)),1fig, ax = plt.subplots()
-    '''ax.plot(melhores_aptidao_total_grafico, melhores_x_total_grafico)
+    melhor_teste = defineMelhor(transposta[-1])
 
-    ax.set(xlabel='melhores_x_total', ylabel='melhores_aptidao_total',
-           title='About as simple as it gets, folks')
-    ax.grid()
+    print("melhor_teste: ", melhor_teste)
 
-    ##fig.savefig("test.png")
-    plt.show()'''
+    print("media: ", media)
+
+    print()
+    
+    ##lista melhor teste a partir do ultimo melhor
+    lstMelhorTeste = listaMelhorTeste(transposta, melhor_teste[1])
+
+    print("lst melhor teste: ", lstMelhorTeste)
+
+    geracao = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    escreve_arquivo(conteudo_arquivo(transposta, media), 1)
+
+    
+    ##grafico
+    fig, ax = plt.subplots()
+    color = 'tab:red'
+    plt.plot(geracao, media, color=color, label='Média')
+    color = 'tab:blue'
+    plt.xlabel('Geração')
+    plt.ylabel('Aptidão')
+    plt.plot(geracao, lstMelhorTeste, color=color, label='Melhor teste')
+    plt.grid(True)
+    plt.legend(loc=0)
+    plt.show()
  
                         
 main()
