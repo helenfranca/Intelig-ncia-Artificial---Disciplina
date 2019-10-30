@@ -181,25 +181,17 @@ def defineMelhor(ultimaLinha):
 
     menor = ultimaLinha[0]
     j=0
-
     for i in range(1, len(ultimaLinha)-1):
-
-        if menor > ultimaLinha[i]:
-            
+        if menor > ultimaLinha[i]:   
             menor = ultimaLinha[i]
-            
             j=i       #guarda posicao do menor
-
     return menor, j
         
 
 def listaMelhorTeste(melhores, indice):
     melhorTeste = []
-
     for linha in melhores:
-
         melhorTeste.append(linha[indice])
-
     return melhorTeste
 
 
@@ -210,80 +202,84 @@ def main():
     pais = []
     nova_geracao = []
     
-    geracao = [10,20]
+    geracoes = [10,20]
     melhores_melhores = []
 
     # 1° Passo: Criar População c/ aptidão
     populacao = cria_populacao(numero_populacao)
 
-    for _ in range(0,10):
-        melhores = []
+    
+    for geracao in geracoes:
+        
         for _ in range(0,10):
-            # 2° Passo: Seleção por Torneio
-            pais = selecao_torneio(populacao)
-        
-            # 3° Passo: Crossover
-            nova_geracao = crossover(pais)
-
-            # 4° Passo: Mutação
-            mutacao(nova_geracao)
-
-            # 5° Passo: Elitismo
-            elitismo(nova_geracao, populacao)
-            populacao = nova_geracao
-
+            melhores = []
+            for _ in range(0,geracao):
+                
+                # 2° Passo: Seleção por Torneio
+                pais = selecao_torneio(populacao)
             
-            melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0] 
-            melhor_geracao_aptidao = melhor_geracao.get_aptidao()
-            melhores.append(melhor_geracao_aptidao)
- 
-        melhores_melhores.append(melhores)
+                # 3° Passo: Crossover
+                nova_geracao = crossover(pais)
+
+                # 4° Passo: Mutação
+                mutacao(nova_geracao)
+
+                # 5° Passo: Elitismo
+                elitismo(nova_geracao, populacao)
+                #populacao = nova_geracao
+
+                populacao = selecao_torneio(nova_geracao)
+
+                
+                melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0] 
+                melhor_geracao_aptidao = melhor_geracao.get_aptidao()
+                melhores.append(melhor_geracao_aptidao)
+     
+            melhores_melhores.append(melhores)
         
+        transposta = np.transpose(melhores_melhores)
+        print(transposta)
+        print() 
+
+        media = calcula_media(transposta, geracao)
+
+        print()
+
+        #mando ultima linha da matriz de resultado para definicao do menor
+        melhor_teste = defineMelhor(transposta[-1])
+
+        print("melhor_teste: ", melhor_teste)
+
+        print("media: ", media)
+
+        print()
+        
+        ##lista melhor teste a partir do ultimo melhor
+        lstMelhorTeste = listaMelhorTeste(transposta, melhor_teste[1])
+
+        print("lst melhor teste: ", lstMelhorTeste)
+
+
         
 
+        escreve_arquivo(conteudo_arquivo(transposta, media), geracao)
 
-    ##print(melhores_melhores)
-    ##print()
-    ##print(melhores_x_total_grafico)
+        geracao_x_grafico = [x for x in range(1, geracao+1)]
+        
+        ##grafico
+        fig, ax = plt.subplots()
+        color = 'tab:red'
+        plt.plot(geracao_x_grafico, media, color=color, label='Média')
+        color = 'tab:blue'
+        plt.xlabel('Geração')
+        plt.ylabel('Aptidão')
+        plt.plot(geracao_x_grafico, lstMelhorTeste, color=color, label='Melhor teste')
+        plt.grid(True)
+        plt.legend(loc=0)
+        plt.savefig('graficoGeracao_'+str(geracao)+'.png')
 
-    transposta = np.transpose(melhores_melhores)
-    print(transposta)
-    print() 
-    ##dps tirar esse 10 e por geracao
-    media = calcula_media(transposta, 10)
-
-    print()
-
-    #mando ultima linha da matriz de resultado para definicao do menor
-    melhor_teste = defineMelhor(transposta[-1])
-
-    print("melhor_teste: ", melhor_teste)
-
-    print("media: ", media)
-
-    print()
-    
-    ##lista melhor teste a partir do ultimo melhor
-    lstMelhorTeste = listaMelhorTeste(transposta, melhor_teste[1])
-
-    print("lst melhor teste: ", lstMelhorTeste)
-
-    geracao = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-    escreve_arquivo(conteudo_arquivo(transposta, media), 1)
 
     
-    ##grafico
-    fig, ax = plt.subplots()
-    color = 'tab:red'
-    plt.plot(geracao, media, color=color, label='Média')
-    color = 'tab:blue'
-    plt.xlabel('Geração')
-    plt.ylabel('Aptidão')
-    plt.plot(geracao, lstMelhorTeste, color=color, label='Melhor teste')
-    plt.grid(True)
-    plt.legend(loc=0)
-    plt.show()
  
                         
 main()
