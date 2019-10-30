@@ -125,6 +125,7 @@ def escreve_arquivo(texto, geracao):
     arquivo.close()
 
 def conteudo_arquivo(melhores, media_melhores):
+    texto = ''
 
     texto = '\t;Teste 1; Teste 2; Teste 3;Teste 4; Teste 5; Teste 6;Teste 7; Teste 8; Teste 9;Teste 10 \n Iteracao 1;'
     j = 1
@@ -133,8 +134,7 @@ def conteudo_arquivo(melhores, media_melhores):
         for i in range(0, len(cromossomo)):
             # print(cromossomo)
             texto = texto + str(round(cromossomo[i], 5)).replace('.', ',') + ';'
-        if(j!=11):
-            texto = texto + '\n Iteracao ' + str(j) + ';'
+        texto = texto + '\n Iteracao ' + str(j) + ';'
 
     texto += '\n\n'
 
@@ -210,7 +210,7 @@ def main():
 
     
     for geracao in geracoes:
-        
+        melhores_melhores = []
         for _ in range(0,10):
             melhores = []
             for _ in range(0,geracao):
@@ -226,7 +226,10 @@ def main():
 
                 # 5° Passo: Elitismo
                 elitismo(nova_geracao, populacao)
+
                 populacao = nova_geracao
+
+                #populacao = selecao_torneio(nova_geracao)
                 
                                 
                 melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0] 
@@ -236,7 +239,9 @@ def main():
             melhores_melhores.append(melhores)
         
         transposta = np.transpose(melhores_melhores)
-        print(transposta)
+
+        print()
+        print("geracao" + str(geracao)+ " :",transposta)
         print() 
 
         media = calcula_media(transposta, geracao)
@@ -246,16 +251,16 @@ def main():
         #mando ultima linha da matriz de resultado para definicao do menor
         melhor_teste = defineMelhor(transposta[-1])
 
-        print("melhor_teste: ", melhor_teste)
+        #print("melhor_teste: ", melhor_teste)
 
-        print("media: ", media)
+        #print("media: ", media)
 
         print()
         
         ##lista melhor teste a partir do ultimo melhor
         lstMelhorTeste = listaMelhorTeste(transposta, melhor_teste[1])
 
-        print("lst melhor teste: ", lstMelhorTeste)
+        #print("lst melhor teste: ", lstMelhorTeste)
 
 
         
