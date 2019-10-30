@@ -48,7 +48,6 @@ def cria_populacao(numero_populacao):
 
 def selecao_torneio(populacao):
     pais = []
-    
 
     for _ in range(0,len(populacao)):
         a = random.choice(populacao) # Pega um cromossomo 
@@ -61,7 +60,7 @@ def selecao_torneio(populacao):
             pai = b
 
         pais.append(pai)
-    
+   
     return pais
 
 def crossover(pais):
@@ -107,27 +106,32 @@ def mutacao(nova_geracao):
                 else:
                     cromossomo[i] = 0
         filho.atualiza()
-
-
+    return nova_geracao
+    
 def elitismo(nova_geracao, populacao):
+    print("PAIS: ", imprimeEnxame(populacao), '\n\n')
+    print("FILHOS: ", imprimeEnxame(nova_geracao), '\n\n')
     
     melhor_pai = sorted(populacao, key=Cromossomo.get_aptidao)[0]
-    filhos_ordenados = sorted(nova_geracao, key=Cromossomo.get_aptidao)
-    melhor_filho = filhos_ordenados[0]
-    indice = nova_geracao.index(melhor_filho)
+   
+    filhos_ordenados = sorted(nova_geracao, key=Cromossomo.get_aptidao, reverse= True)
+    pior_filho = filhos_ordenados[0]
+    indice = nova_geracao.index(pior_filho)
+    print("Melhor pai: ", melhor_pai.get_aptidao(),'\n Melhor filho:', pior_filho.get_aptidao(),'\n \n')
     
-    if melhor_pai.get_aptidao() < melhor_filho.get_aptidao():
+    if melhor_pai.get_aptidao() < pior_filho.get_aptidao():
         nova_geracao[indice] = melhor_pai
+    return nova_geracao
 
 def escreve_arquivo(texto, geracao):
-    arquivo = open('geracao_'+str(geracao)+'.csv', 'a')
+    arquivo = open('geracao_'+str(geracao)+'.csv', 'w')
     arquivo.write(texto + '\n')
     arquivo.close()
 
-def conteudo_arquivo(melhores, media_melhores):
+def conteudo_arquivo(melhores):
     texto = ''
 
-    texto = '\t;Teste 1; Teste 2; Teste 3;Teste 4; Teste 5; Teste 6;Teste 7; Teste 8; Teste 9;Teste 10 \n Iteracao 1;'
+    texto = '\t;Gen 1; Gen 2; Gen 3;Gen 4; Gen 5; Gen 6;Gen 7; Gen 8; Gen 9; Gen 10 \n Iteracao 1;'
     j = 1
     for cromossomo in melhores:
         j = j + 1
@@ -137,12 +141,12 @@ def conteudo_arquivo(melhores, media_melhores):
         texto = texto + '\n Iteracao ' + str(j) + ';'
 
     texto += '\n\n'
-
+    '''
     texto += 'Média: ;'
     for item in media_melhores:
         
         texto += str(round(item, 5)).replace('.', ',') + ';'
-        
+    '''   
     return texto
 
 def calcula_media(melhores, geracao):
@@ -155,7 +159,6 @@ def calcula_media(melhores, geracao):
         media_melhores.append(somatorio/geracao)
     return media_melhores
     
-
 def bin2Dec(binary):
 
     decimal, i = 0, 0
@@ -174,8 +177,8 @@ def formata(corpo):
 
 def imprimeEnxame(enxame):
     for particula in enxame:
-        print('> ', particula)
-
+        print(str(round(particula.get_aptidao(), 5)),end=" ")
+    print()
 
 def defineMelhor(ultimaLinha):
 
@@ -185,15 +188,13 @@ def defineMelhor(ultimaLinha):
         if menor > ultimaLinha[i]:   
             menor = ultimaLinha[i]
             j=i       #guarda posicao do menor
-    return menor, j
-        
+    return menor, j       
 
-def listaMelhorTeste(melhores, indice):
-    melhorTeste = []
+def listaMelhorGen(melhores, indice):
+    melhorGen = []
     for linha in melhores:
-        melhorTeste.append(linha[indice])
-    return melhorTeste
-
+        melhorGen.append(linha[indice])
+    return melhorGen
 
 
 def main():
@@ -202,44 +203,50 @@ def main():
     pais = []
     nova_geracao = []
     
-    geracoes = [10,20]
+    geracoes = [10]
     melhores_melhores = []
 
     # 1° Passo: Criar População c/ aptidão
     populacao = cria_populacao(numero_populacao)
-
-    
+    '''
     for geracao in geracoes:
         melhores_melhores = []
-        for _ in range(0,10):
-            melhores = []
-            for _ in range(0,geracao):
-                
-                # 2° Passo: Seleção por Torneio
-                pais = selecao_torneio(populacao)
-            
-                # 3° Passo: Crossover
-                nova_geracao = crossover(pais)
-
-                # 4° Passo: Mutação
-                mutacao(nova_geracao)
-
-                # 5° Passo: Elitismo
-                elitismo(nova_geracao, populacao)
-
-                populacao = nova_geracao
-
-                #populacao = selecao_torneio(nova_geracao)
-                
-                                
-                melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0] 
-                melhor_geracao_aptidao = melhor_geracao.get_aptidao()
-                melhores.append(melhor_geracao_aptidao)
-     
-            melhores_melhores.append(melhores)
+    for _ in range(0,10):
+    '''
+    melhores = []
+    for i in range(0,10):
         
-        transposta = np.transpose(melhores_melhores)
+        # 2° Passo: Seleção por Torneio
+        pais = selecao_torneio(populacao)
+    
+        # 3° Passo: Crossover
+        nova_geracao = crossover(pais)
 
+        # 4° Passo: Mutação
+        nova_geracao = mutacao(nova_geracao)
+
+        # 5° Passo: Elitismo
+        nova_geracao = elitismo(nova_geracao, populacao)
+
+        populacao = nova_geracao
+
+        #populacao = selecao_torneio(nova_geracao)
+        print("=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/")
+        imprimeEnxame(nova_geracao)
+                        
+        melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0] 
+        melhor_geracao_aptidao = melhor_geracao.get_aptidao()
+        melhores.append(melhor_geracao_aptidao)
+        
+    melhores_melhores.append(melhores)
+        
+
+    transposta = np.transpose(melhores_melhores)
+    #  print(transposta, '\n')
+    escreve_arquivo(conteudo_arquivo(transposta), 10)
+
+        #-------------------------------------
+'''
         print()
         print("geracao" + str(geracao)+ " :",transposta)
         print() 
@@ -249,18 +256,18 @@ def main():
         print()
 
         #mando ultima linha da matriz de resultado para definicao do menor
-        melhor_teste = defineMelhor(transposta[-1])
+        melhor_Gen = defineMelhor(transposta[-1])
 
-        #print("melhor_teste: ", melhor_teste)
+        #print("melhor_Gen: ", melhor_Gen)
 
         #print("media: ", media)
 
         print()
         
-        ##lista melhor teste a partir do ultimo melhor
-        lstMelhorTeste = listaMelhorTeste(transposta, melhor_teste[1])
+        ##lista melhor Gen a partir do ultimo melhor
+        lstMelhorGen = listaMelhorGen(transposta, melhor_Gen[1])
 
-        #print("lst melhor teste: ", lstMelhorTeste)
+        #print("lst melhor Gen: ", lstMelhorGen)
 
 
         
@@ -276,12 +283,12 @@ def main():
         color = 'tab:blue'
         plt.xlabel('Geração')
         plt.ylabel('Aptidão')
-        plt.plot(geracao_x_grafico, lstMelhorTeste, color=color, label='Melhor teste')
+        plt.plot(geracao_x_grafico, lstMelhorGen, color=color, label='Melhor Gen')
         plt.grid(True)
         plt.legend(loc=0)
         plt.savefig('graficoGeracao_'+str(geracao)+'.png')
 
-
+'''
     
  
                         
