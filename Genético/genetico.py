@@ -226,11 +226,9 @@ def main():
 
                 # 5° Passo: Elitismo
                 elitismo(nova_geracao, populacao)
-                #populacao = nova_geracao
-
-                populacao = selecao_torneio(nova_geracao)
-
+                populacao = nova_geracao
                 
+                                
                 melhor_geracao = sorted(nova_geracao, key=Cromossomo.get_aptidao)[0] 
                 melhor_geracao_aptidao = melhor_geracao.get_aptidao()
                 melhores.append(melhor_geracao_aptidao)
