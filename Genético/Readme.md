@@ -211,9 +211,9 @@ Nesse processo busca-se o melhor pai e caso ele seja melhor do que o pior filho,
 
 Abaixo estão os resultados obtidos em cada um dos testes:
 
-![](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/Genetico/Geracao_10.png?raw=true)
+![](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/Genético/Geracao_10.png?raw=true)
 
-![](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/Genetico/Geracao_20.png?raw=true)
+![](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/Genético/Geracao_20.png?raw=true)
 
 Melhor resultado de aptidão para 10 gerações: -16.87594 <br>
 Melhor resultado de aptidão para 20 gerações: -16.87594
