@@ -38,6 +38,7 @@ Utilizar um algoritmo genético binário para minimizar a função descrita abai
 
                                                 f(x) = cos(x)*x + 2
 
+------
 
 #### Implementação
 
@@ -205,7 +206,7 @@ Nesse processo busca-se o melhor pai e caso ele seja melhor do que o pior filho,
             escreve_arquivo(conteudo_arquivo(melhores_melhores), geracao)
 
 ```
-
+----
 #### Resultados
 
 Abaixo estão os resultados obtidos em cada um dos testes:
@@ -214,7 +215,7 @@ Abaixo estão os resultados obtidos em cada um dos testes:
 
 ![](https://github.com/helenfranca/Inteligencia_Artificial_Disciplina/blob/master/Genetico/Geracao_20.png?raw=true)
 
-Melhor resultado de aptidão para 10 gerações: -16.87594
+Melhor resultado de aptidão para 10 gerações: -16.87594 <br>
 Melhor resultado de aptidão para 20 gerações: -16.87594
 
 #### Rodando o algoritmo
@@ -235,8 +236,7 @@ Melhor resultado de aptidão para 20 gerações: -16.87594
 
 - Caso não possua os arquivos CSV na pasta em questão, o algoritmo irá criá-lo.
 
----
-________________
+
 #### Referências
 
 Aula e Slides
