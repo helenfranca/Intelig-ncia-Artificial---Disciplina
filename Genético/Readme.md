@@ -105,7 +105,7 @@ Processo em que se escolhe aleatoriamente dois pais para gerarem filhos
     return pais
 ```
 #### Crossover
-Processo onde acontece o cruzamento dos pais, gerando dois novos filhos. Optamos nesse processo que a acad novo filho gerado ele já passe pelo processo de mutação e atualize sua aptidão. Lembrando que o prórpio cromossomo sabe calcular sua aptidão e também fazer mutação.<br>
+Processo onde acontece o cruzamento dos pais, gerando dois novos filhos. Optamos nesse processo que a cada novo filho gerado ele já passe pelo processo de mutação e atualize sua aptidão. Lembrando que o prórpio cromossomo sabe calcular sua aptidão e também fazer mutação.<br>
 Obs.: Encontramos um melhor resultado quando mudamos a taxa de crossover para 90%.
 
 ```python
