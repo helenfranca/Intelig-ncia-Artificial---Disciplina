@@ -62,7 +62,7 @@ def selecao_torneio(populacao):
         a = random.choice(pop)  # Pega um cromossomo
         b = random.choice(pop)  # Pega um cromossomo
 
-    
+    # Verifica quem é menor. O menor se torna um pai para a nova geração
         if (a.get_aptidao() < b.get_aptidao()):
             pai = a
         else:
@@ -127,50 +127,23 @@ def elitismo(nova_geracao, populacao):
 
 def escreve_arquivo(texto, geracao):
     arquivo = open('geracao_'+str(geracao)+'.csv', 'w')
-
-
     arquivo.write(texto + '\n')
     arquivo.close()
 
 
-def mediaMelhores(melhores, geracao):
-    media = []
-    
-    for linha in melhores:
-        somatorio = 0
-        for item in linha:
-            somatorio += item
-
-        media.append(somatorio/geracao)
-
-    return media
-
-
-def conteudo_arquivo(melhores, geracao):
+def conteudo_arquivo(melhores):
     texto = ''
 
-    texto = '\t;Iter 1; Iter 2; Iter 3; Iter 4; Iter 5; Iter 6; Iter 7; Iter 8; Iter 9; Iter 10; \n Gen 1;'
+    texto = '\t;Iter 1; Iter 2; Iter 3; Iter 4; Iter 5; Iter 6; Iter 7; Iter 8; Iter 9; Iter 10 \n Gen 1;'
     j = 1
-
-
     for cromossomo in melhores:
         j = j + 1
         for i in range(0, len(cromossomo)):
             # print(cromossomo)
             texto = texto + str(round(cromossomo[i], 5)).replace('.', ',') + ';'
-
         texto = texto + '\n Gen ' + str(j) + ';'
 
-
     texto += '\n\n'
-
-    media = mediaMelhores(melhores, geracao)
-    
-    texto += 'Média Gen: ;'
-    for valor in media:
-        texto += str(round(valor, 5)) + ';'
-
-    texto += '\n\n'   
   
     return texto
 
@@ -232,7 +205,6 @@ def main():
 
             melhores_melhores.append(melhores)
 
-        escreve_arquivo(conteudo_arquivo(melhores_melhores, geracao), geracao)
-        
+        escreve_arquivo(conteudo_arquivo(melhores_melhores), geracao)
 
 main()
