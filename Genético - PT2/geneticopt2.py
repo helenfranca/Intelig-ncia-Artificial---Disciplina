@@ -4,13 +4,7 @@ import math
 class Cromossomo:
     def __init__(self, valor):
         self.valor = valor
-
-        # Normaliza
-        #dec = bin2Dec(formata(self.valor))
-        
         self.x = (-20) + (20 + 20) * (self.valor / (pow(2, 10) - 1))
-
-        # Calcula a aptidao baseado no numero normalizado
         self.aptidao = math.cos(self.x) * self.x + 2
 
     def get_valor(self):
@@ -23,7 +17,6 @@ class Cromossomo:
         return self.aptidao
 
     def atualiza(self):
-        #dec = bin2Dec(formata(self.valor))
 
         self.x = (-20) + (20 + 20) * (self.valor / (pow(2, 10) - 1))
         self.aptidao = math.cos(self.x) * self.x + 2
@@ -40,13 +33,6 @@ class Cromossomo:
                     bits[i] = 0
 
         self.valor = bits
-
-
-'''def cria_cromossomo():
-
-    cromossomo = [random.randrange(0, 2) for x in range(0, 10)]
-
-    return cromossomo''''
 
 
 def cria_populacao(numero_populacao):
@@ -152,23 +138,6 @@ def conteudo_arquivo(melhores):
     texto += '\n\n'
   
     return texto
-
-'''def bin2Dec(binary):
-
-    decimal, i = 0, 0
-    while (binary != 0):
-        dec = binary % 10
-        decimal = decimal + dec * pow(2, i)
-        binary = binary // 10
-        i += 1
-    return decimal'''
-
-
-'''def formata(valor):
-    b = ''
-    for i in valor:
-        b = str(i) + '' + b
-    return int(b)'''
 
 
 def imprimeEnxame(enxame):
