@@ -20,25 +20,22 @@ class Cromossomo:
 
         self.x = (-20) + (20 + 20) * (self.valor / (pow(2, 10) - 1))
         self.aptidao = math.cos(self.x) * self.x + 2
-    
+        
+    #mutacao de limite
     def mutacao(self):
-        bits = self.get_valor()
-        for i in range(0, len(bits)):
-            taxa_mutacao = random.uniform(0, 1)
+        taxa_mutacao = random.uniform(0, 1)
 
-            if(taxa_mutacao <= 0.1):
-                if(bits[i] == 0):
-                    bits[i] = 1
-                else:
-                    bits[i] = 0
-
-        self.valor = bits
-
+        if(taxa_mutacao <= 0.1):
+                
+            if(random.uniform(0,1) < 0.5):
+                self.valor = -20
+            else:
+                self.valor = 20
 
 def cria_populacao(numero_populacao):
 
     populacao = [
-        Cromossomo(rand.uniform(-20, 20)) for x in range(0, numero_populacao)
+        Cromossomo(random.uniform(-20, 20)) for x in range(0, numero_populacao)
     ]
     return populacao
 
