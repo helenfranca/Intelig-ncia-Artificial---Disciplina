@@ -72,7 +72,7 @@ def crossover_mutacao(pais):
         paiDois = pai[tam + 1]
 
         if taxa_cross <= 90:
-            # Cruzamento
+            # crossover blx-alfa
 
             beta = random.uniform((-1 * alpha), (1 + alpha))
 
@@ -120,7 +120,7 @@ def escreve_arquivo(texto, geracao):
     arquivo.close()
 
 
-def conteudo_arquivo(melhores):
+def conteudo_arquivo(melhores, geracao):
     texto = ''
 
     texto = '\t;Iter 1; Iter 2; Iter 3; Iter 4; Iter 5; Iter 6; Iter 7; Iter 8; Iter 9; Iter 10 \n Gen 1;'
@@ -133,9 +133,39 @@ def conteudo_arquivo(melhores):
         texto = texto + '\n Gen ' + str(j) + ';'
 
     texto += '\n\n'
+
+    texto += 'Média: ;'
+
+    media = media_melhores(melhores)
+
+    for valor in media:
+        texto = texto + str(round(valor, 5)).replace('.', ',') + ';'
+
+    grafico(geracao, media)
   
     return texto
 
+
+def media_melhores(melhores):
+    media_melhores = []
+    
+    for linha in melhores:
+        soma = 0
+        for cromossomo in linha:
+            soma += cromossomo
+        media_melhores.append(soma/10)
+
+    return media_melhores
+
+
+def grafico(geracao, media):
+    import matplotlib.pyplot as plt
+
+    x = [i for i in range(1, geracao+1)]
+
+    plt.plot(x, media)
+    plt.show()
+            
 
 def imprimeEnxame(enxame):
     for particula in enxame:
@@ -177,6 +207,7 @@ def main():
 
             melhores_melhores.append(melhores)
 
-        escreve_arquivo(conteudo_arquivo(melhores_melhores), geracao)
+        escreve_arquivo(conteudo_arquivo(melhores_melhores, geracao), geracao)
+
 
 main()
