@@ -125,11 +125,11 @@ def conteudo_arquivo(melhores, geracao, media):
 
     if (geracao == 10):
 
-        texto = '\t;Gen 1; Gen 2; Gen 3; Gen 4; Gen 5; Gen 6; Gen 7;  Gen 8; Gen 9; Gen 10 \n Ite 1;'
+        texto = '\t;Gen 1; Gen 2; Gen 3; Gen 4; Gen 5; Gen 6; Gen 7;  Gen 8; Gen 9; Gen 10 \n Exe 1;'
 
     else:
 
-        texto = '\t;Gen 1; Gen 2; Gen 3; Gen 4; Gen 5; Gen 6; Gen 7;  Gen 8; Gen 9; Gen 10; Gen 11; Gen 12; Gen 13; Gen 14; Gen 15; Gen 16; Gen 17;  Gen 18; Gen 19; Gen 20\n Ite 1;'
+        texto = '\t;Gen 1; Gen 2; Gen 3; Gen 4; Gen 5; Gen 6; Gen 7;  Gen 8; Gen 9; Gen 10; Gen 11; Gen 12; Gen 13; Gen 14; Gen 15; Gen 16; Gen 17;  Gen 18; Gen 19; Gen 20\n Exe 1;'
         
     j = 1
     for cromossomo in melhores:
@@ -137,13 +137,12 @@ def conteudo_arquivo(melhores, geracao, media):
         for i in range(0, len(cromossomo)):
             # print(cromossomo)
             texto = texto + str(round(cromossomo[i], 5)).replace('.', ',') + ';'
-        texto = texto + '\n Ite ' + str(j) + ';'
+        texto = texto + '\n Exe ' + str(j) + ';'
 
     texto += '\n\n'
 
     texto += 'Média: ;'
 
-    media = media_melhores(melhores)
 
     for valor in media:
         texto = texto + str(round(valor, 5)).replace('.', ',') + ';'
@@ -171,6 +170,9 @@ def grafico(geracao, media, melhor_solucao):
 
     plt.plot(x, media, label="Média")
     plt.plot(x, melhor_solucao, label="Melhor solução")
+    plt.ylabel("Aptidão")
+    plt.xlabel("Geração")
+    plt.title("Representação Real")
     plt.grid()
     plt.legend(loc="best")
     plt.savefig('geracao' +str(geracao)+ '.png')
