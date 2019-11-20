@@ -215,8 +215,12 @@ Abaixo estão os resultados obtidos em cada um dos testes:
 
 ![](https://github.com/helenfranca/inteligencia_artificial_disciplina/blob/mudan%C3%A7a_ag1/Gen%C3%A9tico%20-%20PT1/geracao20.png)
 
-Melhor resultado de aptidão para 10 gerações: -16.87594 <br>
-Melhor resultado de aptidão para 20 gerações: -16.87594
+##### Melhores resultados
+- Aptidão para 10 gerações: -16.87594
+- Média para 10 gerações : -15.2311 <br>
+
+- Aptidão para 20 gerações: -16.87594 
+- Média para 20 gerações: -16.52885 
 
 #### Rodando o algoritmo
 
