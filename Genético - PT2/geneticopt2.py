@@ -20,13 +20,13 @@ class Cromossomo:
 
         self.x = (-20) + (20 + 20) * (self.valor / (pow(2, 10) - 1))
         self.aptidao = math.cos(self.x) * self.x + 2
-        
+       
     #mutacao de limite
     def mutacao(self):
         taxa_mutacao = random.uniform(0, 1)
 
         if(taxa_mutacao <= 0.1):
-                
+               
             if(random.uniform(0,1) < 0.5):
                 self.valor = -20
             else:
@@ -64,7 +64,7 @@ def crossover_mutacao(pais):
     pai = pais.copy()
 
     alpha = 0.5
-    
+   
     while tam < len(pai):
         taxa_cross = random.uniform(0, 1) * 100
 
@@ -120,17 +120,24 @@ def escreve_arquivo(texto, geracao):
     arquivo.close()
 
 
-def conteudo_arquivo(melhores, geracao):
+def conteudo_arquivo(melhores, geracao, media):
     texto = ''
 
-    texto = '\t;Iter 1; Iter 2; Iter 3; Iter 4; Iter 5; Iter 6; Iter 7; Iter 8; Iter 9; Iter 10 \n Gen 1;'
+    if (geracao == 10):
+
+        texto = '\t;Gen 1; Gen 2; Gen 3; Gen 4; Gen 5; Gen 6; Gen 7;  Gen 8; Gen 9; Gen 10 \n Ite 1;'
+
+    else:
+
+        texto = '\t;Gen 1; Gen 2; Gen 3; Gen 4; Gen 5; Gen 6; Gen 7;  Gen 8; Gen 9; Gen 10; Gen 11; Gen 12; Gen 13; Gen 14; Gen 15; Gen 16; Gen 17;  Gen 18; Gen 19; Gen 20\n Ite 1;'
+        
     j = 1
     for cromossomo in melhores:
         j = j + 1
         for i in range(0, len(cromossomo)):
             # print(cromossomo)
             texto = texto + str(round(cromossomo[i], 5)).replace('.', ',') + ';'
-        texto = texto + '\n Gen ' + str(j) + ';'
+        texto = texto + '\n Ite ' + str(j) + ';'
 
     texto += '\n\n'
 
@@ -141,14 +148,13 @@ def conteudo_arquivo(melhores, geracao):
     for valor in media:
         texto = texto + str(round(valor, 5)).replace('.', ',') + ';'
 
-    grafico(geracao, media)
-  
+ 
     return texto
 
 
 def media_melhores(melhores):
     media_melhores = []
-    
+   
     for linha in melhores:
         soma = 0
         for cromossomo in linha:
@@ -158,14 +164,18 @@ def media_melhores(melhores):
     return media_melhores
 
 
-def grafico(geracao, media):
+def grafico(geracao, media, melhor_solucao):
     import matplotlib.pyplot as plt
 
     x = [i for i in range(1, geracao+1)]
 
-    plt.plot(x, media)
-    plt.show()
-            
+    plt.plot(x, media, label="Média")
+    plt.plot(x, melhor_solucao, label="Melhor solução")
+    plt.grid()
+    plt.legend(loc="best")
+    plt.savefig('geracao' +str(geracao)+ '.png')
+    plt.close()
+        
 
 def imprimeEnxame(enxame):
     for particula in enxame:
@@ -178,24 +188,26 @@ def main():
     numero_populacao = 10
     pais = []
     geracoes = [10,20]
-    
+   
+
     for geracao in geracoes:
+
         melhores_melhores = []
-        
-        for _ in range(0,geracao):
+       
+        for _ in range(10): #NUMERO DE EXECUCOES
 
             # 1° Passo: Criar População c/ aptidão
             populacao = cria_populacao(numero_populacao)
             melhores = []
-            cruzado = []   
-            for _ in range(0,numero_populacao):
+            cruzado = []  
+            for _ in range(geracao): #QUANTIDADE DE GERACOES
                                
                 # 2° Passo: Seleção por Torneio
                 pais = selecao_torneio(populacao)
-            
+           
                 # 3° Passo: Crossover & Mutação & Atualiza
                 cruzado = crossover_mutacao(pais)      
-            
+           
                 # 4° Passo: Elitismo
                 new_geracao = elitismo(cruzado, populacao)
 
@@ -205,9 +217,44 @@ def main():
                 melhor_geracao_aptidao = melhor_geracao.get_aptidao()
                 melhores.append(melhor_geracao_aptidao)
 
-            melhores_melhores.append(melhores)
+            #print(melhores) #Lista com os melhores de cada GERACAO
+            melhores_melhores.append(melhores) #Lista com os melhores de cada EXECUCAO
 
-        escreve_arquivo(conteudo_arquivo(melhores_melhores, geracao), geracao)
+       
+        for i in range(len(melhores_melhores)):
+            print(melhores_melhores[i])
+           
+       
+        media = []
+        for i in range(geracao): #Quantidade de GERACOES
+            media.append(0)
+            for j in range(10): #Quantidade de EXECUCOES
+                media[i] += melhores_melhores[j][i]
+            media[i] /= 10
 
+
+
+        pos_melhor = 0
+        menor_aptidao = melhores_melhores[0][-1]
+        
+        for i in range(1, len(melhores_melhores)):
+            if (menor_aptidao > melhores_melhores[i][-1]):
+                menor_aptidao = melhores_melhores[i][-1]
+                pos_melhor = i
+
+        melhor_solucao = melhores_melhores[pos_melhor]
+
+
+        print(pos_melhor, '\n\n')
+
+        ##print(melhor_solucao)
+
+        grafico(geracao, media, melhor_solucao)
+
+
+        escreve_arquivo(conteudo_arquivo(melhores_melhores, geracao, media), geracao)
+
+    #media = media_melhores(melhores_melhores)
+    #print (media,"\n\n")
 
 main()
